@@ -18,3 +18,9 @@ O output devolve o IP público. Para remover tudo: `terraform destroy`.
 
 **State fora do versionamento.** O `.gitignore` exclui o tfstate, que contém o inventário da infraestrutura e pode conter dados sensíveis.
 EOF
+
+**State remoto no S3.** O state é a fonte de verdade sobre o que existe na AWS. Mantê-lo apenas na máquina local significa depender dela e inviabilizar trabalho em equipe. O bucket tem versionamento habilitado, então um state corrompido ou apagado pode ser recuperado, e `encrypt = true` garante criptografia em repouso.
+
+**Locking via `use_lockfile` em vez de DynamoDB.** O padrão até então era uma tabela DynamoDB para impedir dois `apply` simultâneos. A partir do Terraform 1.10 o lock é feito por arquivo no próprio S3, e o parâmetro `dynamodb_table` está depreciado. Adotei a forma atual, o que elimina um recurso da infraestrutura.
+
+**Bucket criado via CLI, fora deste Terraform.** Dependência circular: o backend precisa existir antes do `terraform init`. A alternativa seria um projeto de bootstrap separado.

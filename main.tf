@@ -1,3 +1,13 @@
+terraform {
+  backend "s3" {
+    bucket       = "mcpavao-tfstate-2026"
+    key          = "terraform-aws-nginx/terraform.tfstate"
+    region       = "eu-west-3"
+    use_lockfile = true
+    encrypt      = true
+  }
+}
+
 provider "aws" {
   region = "eu-west-3"
 }
