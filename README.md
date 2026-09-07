@@ -1,5 +1,7 @@
 # Terraform AWS Ngnix 
 
+![Terraform CI](https://github.com/mcpavao/terraform-aws-nginx/actions/workflows/terraform.yml/badge.svg)
+
 Provisionamento de uma EC2 na AWS (eu-west-3, Paris) rodando nginx em container Docker, inteiramente descrito em código.
 
 # COMO RODAR 
