@@ -24,3 +24,7 @@ EOF
 **Locking via `use_lockfile` em vez de DynamoDB.** O padrão até então era uma tabela DynamoDB para impedir dois `apply` simultâneos. A partir do Terraform 1.10 o lock é feito por arquivo no próprio S3, e o parâmetro `dynamodb_table` está depreciado. Adotei a forma atual, o que elimina um recurso da infraestrutura.
 
 **Bucket criado via CLI, fora deste Terraform.** Dependência circular: o backend precisa existir antes do `terraform init`. A alternativa seria um projeto de bootstrap separado.
+
+**Ansible em vez de `user_data`.** O `user_data` executa apenas uma vez, no primeiro boot: qualquer mudança de configuração exigiria recriar a instância. O playbook é idempotente e reexecutável na máquina viva, e separa responsabilidades — Terraform provisiona a infraestrutura, Ansible configura o que roda dentro dela.
+
+**Inventário estático.** O IP é escrito no `inventory.ini` a partir do output do Terraform. A evolução natural seria o inventário dinâmico da AWS, que descobre as instâncias por tag.

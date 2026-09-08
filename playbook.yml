@@ -1,0 +1,24 @@
+- name: Configure nginx host
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install Docker
+      dnf:
+        name: docker
+        state: present
+
+    - name: Enable and start Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Run nginx container
+      community.docker.docker_container:
+        name: web
+        image: nginx
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
