@@ -12,6 +12,11 @@ provider "aws" {
   region = "eu-west-3"
 }
 
+variable "public_key" {
+  description = "SSH public key content used for EC2 access"
+  type = string
+}
+
 data "aws_ami" "al2023" {
   most_recent = true
   owners      = ["amazon"]
@@ -27,7 +32,7 @@ data "aws_security_group" "mateus" {
 
 resource "aws_key_pair" "mateus" {
   key_name   = "mateus-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = var.public_key
 }
 
 resource "aws_instance" "web" {
