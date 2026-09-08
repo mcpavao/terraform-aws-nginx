@@ -28,3 +28,5 @@ EOF
 **Ansible em vez de `user_data`.** O `user_data` executa apenas uma vez, no primeiro boot: qualquer mudança de configuração exigiria recriar a instância. O playbook é idempotente e reexecutável na máquina viva, e separa responsabilidades — Terraform provisiona a infraestrutura, Ansible configura o que roda dentro dela.
 
 **Inventário estático.** O IP é escrito no `inventory.ini` a partir do output do Terraform. A evolução natural seria o inventário dinâmico da AWS, que descobre as instâncias por tag.
+
+**Chave pública como variável.** A primeira versão lia `~/.ssh/id_rsa.pub` com `file()`, o que acoplava a configuração à máquina local — o pipeline de CI falhou ao não encontrar o arquivo. Passando o conteúdo da chave como variável, o código deixa de depender do sistema de arquivos de quem executa.
