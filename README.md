@@ -30,3 +30,13 @@ EOF
 **Inventário estático.** O IP é escrito no `inventory.ini` a partir do output do Terraform. A evolução natural seria o inventário dinâmico da AWS, que descobre as instâncias por tag.
 
 **Chave pública como variável.** A primeira versão lia `~/.ssh/id_rsa.pub` com `file()`, o que acoplava a configuração à máquina local — o pipeline de CI falhou ao não encontrar o arquivo. Passando o conteúdo da chave como variável, o código deixa de depender do sistema de arquivos de quem executa.
+
+## Como rodar
+
+```bash
+terraform apply -var="public_key=$(cat ~/.ssh/id_rsa.pub)"
+printf '[web]\n%s ansible_user=ec2-user\n' "$(terraform output -raw public_ip)" > inventory.ini
+ansible-playbook -i inventory.ini playbook.yml
+```
+
+Para remover tudo: `terraform destroy`.
