@@ -1,10 +1,8 @@
-# Terraform AWS Ngnix 
+# Terraform AWS Nginx 
 
 ![Terraform CI](https://github.com/mcpavao/terraform-aws-nginx/actions/workflows/terraform.yml/badge.svg)
 
 Provisionamento de uma EC2 na AWS (eu-west-3, Paris) rodando nginx em container Docker, inteiramente descrito em código.
-
-# COMO RODAR 
 
 O output devolve o IP público. Para remover tudo: `terraform destroy`.
 
@@ -17,7 +15,6 @@ O output devolve o IP público. Para remover tudo: `terraform destroy`.
 **Security group como data source.** Reaproveitei um grupo existente na conta. Numa versão de portfólio completa, ele seria um `resource` gerenciado pelo Terraform, para que o projeto não dependa de nada criado manualmente.
 
 **State fora do versionamento.** O `.gitignore` exclui o tfstate, que contém o inventário da infraestrutura e pode conter dados sensíveis.
-EOF
 
 **State remoto no S3.** O state é a fonte de verdade sobre o que existe na AWS. Mantê-lo apenas na máquina local significa depender dela e inviabilizar trabalho em equipe. O bucket tem versionamento habilitado, então um state corrompido ou apagado pode ser recuperado, e `encrypt = true` garante criptografia em repouso.
 
