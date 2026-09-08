@@ -14,7 +14,7 @@ provider "aws" {
 
 variable "public_key" {
   description = "SSH public key content used for EC2 access"
-  type = string
+  type        = string
 }
 
 data "aws_ami" "al2023" {
